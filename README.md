@@ -1,87 +1,88 @@
-# Implementation-of-Decision-Tree-Regressor-Model-for-Predicting-the-Salary-of-the-Employee
+# Implementation-of-K-Means-Clustering-for-Customer-Segmentation
 
 ## AIM:
-To write a program to implement the Decision Tree Regressor Model for Predicting the Salary of the Employee.
+To write a program to implement the K Means Clustering for Customer Segmentation.
 
 ## Equipments Required:
 1. Hardware – PCs
 2. Anaconda – Python 3.7 Installation / Jupyter notebook
 
 ## Algorithm
-1. Import the required libraries.
-2. Upload the csv file and read the dataset.
-3. Check for any null values using the isnull() function.
-4. From sklearn.tree inport DecisionTreeRegressor.
-5. Import metrics and calculate the Mean squared error.
-6. Apply metrics to the dataset, and predict the output.
+1.Import the necessary packages using import statement.
+
+2.Read the given csv file using read_csv() method and print the number of contents to be displayed using df.head().
+
+3.Import KMeans and use for loop to cluster the data.
+
+4.Predict the cluster and plot data graphs.
+
+5.Print the outputs and end the program
+
 ## Program:
 ```
 /*
-Program to implement the Decision Tree Regressor Model for Predicting the Salary of the Employee.
+Program to implement the K Means Clustering for Customer Segmentation.
 Developed by: MADHANRAJ P
 RegisterNumber:  212223220052
 */
 ```
-```py
+```c
 import pandas as pd
-data=pd.read_csv("Salary.csv")
+import matplotlib.pyplot as plt
+data=pd.read_csv("Mall_Customers.csv")
 data.head()
-
 data.info()
-
 data.isnull().sum()
+from sklearn.cluster import KMeans
+wcss = []
+for i in range(1,11):
+  kmeans = KMeans (n_clusters = i, init ="k-means++")
+  kmeans.fit(data.iloc[:,3:])
+  wcss.append(kmeans.inertia_)
+plt.plot(range(1,11),wcss)
+plt.xlabel("no of cluster")
+plt.ylabel("wcss")
+plt.title("Elbow Metthod")
+km=KMeans(n_clusters=5)
+km.fit(data.iloc[:,3:])
+y_pred = km.predict(data.iloc[:,3:])
+y_pred
+data["cluster"]=y_pred
+df0=data[data["cluster"]==0]
+df1=data[data["cluster"]==1]
+df2=data[data["cluster"]==2]
+df3=data[data["cluster"]==3]
+df4=data[data["cluster"]==4]
+plt.scatter(df0["Annual Income (k$)"],df0["Spending Score (1-100)"],c="red",label="cluster0")
+plt.scatter(df1["Annual Income (k$)"],df1["Spending Score (1-100)"],c="pink",label="cluster1")
+plt.scatter(df2["Annual Income (k$)"],df2["Spending Score (1-100)"],c="green",label="cluster2")
+plt.scatter(df3["Annual Income (k$)"],df3["Spending Score (1-100)"],c="blue",label="cluster3")
+plt.scatter(df4["Annual Income (k$)"],df4["Spending Score (1-100)"],c="black",label="cluster4")
+plt.legend()
+plt.title("Customer Segments")
 
-from sklearn.preprocessing import LabelEncoder
-le=LabelEncoder()
-
-data["Position"]=le.fit_transform(data["Position"])
-data.head()
-
-x=data[["Position","Level"]]
-x.head()
-
-y=data[["Salary"]]
-
-from sklearn.model_selection import train_test_split
-x_train, x_test, y_train, y_test=train_test_split(x,y,test_size=0.2,random_state=2)
-
-from sklearn.tree import DecisionTreeRegressor
-dt=DecisionTreeRegressor()
-dt.fit(x_train,y_train)
-y_pred=dt.predict(x_test)
-
-from sklearn import metrics
-mse=metrics.mean_squared_error(y_test, y_pred)
-mse
-
-r2=metrics.r2_score(y_test,y_pred)
-r2
-
-dt.predict([[5,6]])
 ```
 
 ## Output:
-### Initial Dataset:
-![7 1](https://github.com/Rajeshanbu/Implementation-of-Decision-Tree-Regressor-Model-for-Predicting-the-Salary-of-the-Employee/assets/118924713/33faca45-0c8f-49fd-905d-954838a675ce)
+## Dataset:
 
-### Data Info:
-![7 2](https://github.com/Rajeshanbu/Implementation-of-Decision-Tree-Regressor-Model-for-Predicting-the-Salary-of-the-Employee/assets/118924713/daed8dfd-55c0-4e58-bf3a-d62c3dfdffdd)
+![278795578-afbcb3f0-41a0-4e9e-bafd-a0fafb3334c0](https://github.com/charumathiramesh/Implementation-of-K-Means-Clustering-for-Customer-Segmentation/assets/120204455/ed5b0fe2-4e98-43bd-9b21-f3468d493335)
 
-### Optimization of null values:
-![7 3](https://github.com/Rajeshanbu/Implementation-of-Decision-Tree-Regressor-Model-for-Predicting-the-Salary-of-the-Employee/assets/118924713/005453a7-304b-48ee-8716-be3417e266c8)
+## Dataset information:
+![278795602-253e3aeb-6850-4bfd-b39b-9e82bf90d834](https://github.com/charumathiramesh/Implementation-of-K-Means-Clustering-for-Customer-Segmentation/assets/120204455/8d4aa9d8-45dd-4539-8271-f7da5d00dc99)
+![278795605-b654a77d-774e-4cc0-9396-4353a521f7cc](https://github.com/charumathiramesh/Implementation-of-K-Means-Clustering-for-Customer-Segmentation/assets/120204455/f3c984b3-7e9b-4852-9552-a4026fbfd52d)
 
-### Converting string literals to numerical values using label encoder:
-![7 4](https://github.com/Rajeshanbu/Implementation-of-Decision-Tree-Regressor-Model-for-Predicting-the-Salary-of-the-Employee/assets/118924713/49c1c499-bda8-47b6-b395-56bf36923a9d)
 
-### Mean Squared Error:
-![7 5](https://github.com/Rajeshanbu/Implementation-of-Decision-Tree-Regressor-Model-for-Predicting-the-Salary-of-the-Employee/assets/118924713/b36bf828-7382-4275-91d4-190ff0d2ed14)
 
-### R2 (Variance):
-![7 6](https://github.com/Rajeshanbu/Implementation-of-Decision-Tree-Regressor-Model-for-Predicting-the-Salary-of-the-Employee/assets/118924713/6b239db9-34f5-4051-8c48-cbed92f83de9)
 
-### Perdicition:
-![7 8](https://github.com/Rajeshanbu/Implementation-of-Decision-Tree-Regressor-Model-for-Predicting-the-Salary-of-the-Employee/assets/118924713/77e886b1-2968-4027-a2ce-6582665fa16a)
+## Elbow method graph (wcss vs each iteration):
+![278795631-c7b3a69a-089c-4ff3-b253-9a2a0b6e0daa](https://github.com/charumathiramesh/Implementation-of-K-Means-Clustering-for-Customer-Segmentation/assets/120204455/65a43453-3ac2-4bea-8187-97cb6cc060d1)
+
+
+## Cluster represnting customer segments-graph:
+
+![278795641-c898bcee-13f7-49d2-918c-dc151a9702f3](https://github.com/charumathiramesh/Implementation-of-K-Means-Clustering-for-Customer-Segmentation/assets/120204455/5796e66a-5977-4d88-857d-822ee784388d)
 
 
 ## Result:
-Thus the program to implement the Decision Tree Regressor Model for Predicting the Salary of the Employee is written and verified using python programming.
+Thus the program to implement the K Means Clustering for Customer Segmentation is written and verified using python programming.
